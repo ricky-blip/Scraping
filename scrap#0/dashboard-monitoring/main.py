@@ -10,11 +10,32 @@ Detect Latest Earthquake from database BMKG
     - membuat package/folder untuk menyimpan function yang sebelumnya dibuat di module
     - buat file __init__.py lalu masukkan function
     - kembali ke module utama lalu import package yang telah dibuat 
+
+Docs:
+
+*line 14      = # date & time with tag SPAN
+*line 19 - 46 = # scrap data magnitude until dirasakan
+
+* datascrap = datascrap.findChildren('li') # Output = List
+
+*line 21 - 46 = #print List using FOR LOOP
+
+*i = 0 # knowing sequence
+
+*line after begin looping FOR # 
+print(i, datalist) # print knowing list sequence
+
+*if i == 1: # 1 is index list magnitude
+
+*i = i + 1 # count from 0 to End data
+
 """
 
-import gempaterkini
+
+
+import LatestEarthquake
 
 if __name__ == '__main__':
    print('==========MAIN APPS==========\n') 
-   result = gempaterkini.ekstrasi_data()
-   gempaterkini.tampilkan_data(result)
+   result = LatestEarthquake.DataExtraction()
+   LatestEarthquake.ShowData(result)

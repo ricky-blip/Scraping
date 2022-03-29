@@ -1,17 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 
-def ekstrasi_data():
-    """
-    Tanggal     : 2 Maret 2022 
-    Waktu       : 08:52:08 WIB
-    Magnitudo   : 3.2
-    Kedalaman   : 8 km
-    Koordinat   : 6.95 LS - 107.06 BT
-    Pusat Gempa : Pusat gempa berada di darat 14 km tenggara Kota Sukabumi
-    Dirasakan   : Dirasakan (Skala MMI): II Kebonpedes, II Cireunghas
-    :return:
-    """
+def DataExtraction():
+    
     try:
         content = requests.get('https://www.bmkg.go.id/')
     except Exception:
@@ -20,18 +11,15 @@ def ekstrasi_data():
     if content.status_code == 200:
         soup = BeautifulSoup(content.text, 'html.parser')
         
-        datetime = soup.find('span', {'class': 'waktu'}) # date & time with tag SPAN
+        datetime = soup.find('span', {'class': 'waktu'}) 
         datetime = datetime.text.split(', ')
         date = datetime[0]
         time = datetime[1]
         
-        # scrap data magnitude until dirasakan
-        
         datascrap = soup.find('div', {'class': 'col-md-6 col-xs-6 gempabumi-detail no-padding'}) 
-        datascrap = datascrap.findChildren('li') # Output = List
-        #print List using FOR LOOP
+        datascrap = datascrap.findChildren('li') 
         
-        i = 0 # knowing sequence
+        i = 0
         magnitude = None
         kedalaman = None
         ls = None
@@ -40,8 +28,8 @@ def ekstrasi_data():
         dirasakan = None
         
         for datalist in datascrap:
-            # print(i, datalist) # print knowing list sequence
-            if i == 1: # 1 is index list magnitude
+            
+            if i == 1:
                 magnitude = datalist.text
             elif i == 2:
                 kedalaman = datalist.text
@@ -54,7 +42,7 @@ def ekstrasi_data():
             elif i == 5:
                 dirasakan = datalist.text
                 
-            i = i + 1 # count from 0 to End data
+            i = i + 1
         
         hasil = dict()
         hasil['tanggal']       = date
@@ -70,7 +58,7 @@ def ekstrasi_data():
         return None
 
 
-def tampilkan_data(result):
+def ShowData(result):
     if result is None:
         print("Data Not Found")
         return
@@ -85,4 +73,4 @@ def tampilkan_data(result):
     print(f"Dirasakan  : {result['dirasakan']}")
     
 if __name__ == '__main__':
-    print('Package Gempa Terkini')
+    print('Package BMKG Latest Earthquake')
